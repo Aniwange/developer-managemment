@@ -1,5 +1,4 @@
-package com.vela.learnkoltlin.domain
-
+package com.vela.developersmanagementservice.domain
 
 data class UserDomain(
         var id: Long,

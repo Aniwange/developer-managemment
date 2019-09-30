@@ -1,4 +1,4 @@
-package com.vela.learnkoltlin.domain.dto
+package com.vela.developersmanagementservice.domain.dto
 
 data class RegisterUserCommand(
         var firstName: String,

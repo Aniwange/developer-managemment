@@ -1,9 +1,10 @@
-package com.vela.learnkoltlin.usecase.impl
+package com.vela.developersmanagementservice.usecase.impl
 
-import com.vela.learnkoltlin.domain.UserDomain
-import com.vela.learnkoltlin.domain.domaingateway.UserDomainGateway
-import com.vela.learnkoltlin.domain.dto.RegisterUserCommand
-import com.vela.learnkoltlin.usecase.RegisterUser
+
+import com.vela.developersmanagementservice.domain.UserDomain
+import com.vela.developersmanagementservice.domain.domaingateway.UserDomainGateway
+import com.vela.developersmanagementservice.domain.dto.RegisterUserCommand
+import com.vela.developersmanagementservice.usecase.RegisterUser
 import javax.inject.Named
 
 
