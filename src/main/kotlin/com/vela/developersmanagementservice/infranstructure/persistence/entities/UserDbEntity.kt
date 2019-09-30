@@ -1,7 +1,7 @@
 package com.vela.developersmanagementservice.infranstructure.persistence.entities
 
 
-import com.vela.developersmanagementservice.infranstructure.persistence.entities.Enumeration.Role
+import com.vela.developersmanagementservice.domain.dto.Enumeration.Role
 import javax.persistence.*
 
 

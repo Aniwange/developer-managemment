@@ -8,5 +8,5 @@ interface DeveloperDomainGateway {
     fun updateDeveloper(developerDomain: DeveloperDomain): DeveloperDomain
     fun deleteDeveloper(id: Long): String
     fun findDeveloper(id: Long) : DeveloperDomain
-    fun getAllDevelopers(): List<DeveloperDomain>
+    fun getAllDevelopers(): MutableList<List<DeveloperDomain>>
 }
