@@ -5,7 +5,7 @@ import com.vela.developermanagementservice.domain.dto.LoginUserCommand
 import com.vela.developermanagementservice.domain.dto.RegisterUserCommand
 import com.vela.developermanagementservice.usecase.LoginUser
 import com.vela.developermanagementservice.usecase.RegisterUser
-import com.vela.learnkoltlin.domain.dto.LoginResponseJSON
+import com.vela.learnkoltlin.domain.dto.LoginResponseCommand
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -15,12 +15,13 @@ import javax.validation.Valid
 class UserController(var registerUser: RegisterUser, var loginUser: LoginUser) {
 
     @PostMapping("/")
-    fun registerUser(@RequestBody registerUserCommand: RegisterUserCommand): ResponseEntity<UserDomain>{
+    @ResponseBody
+    fun registerUser(@RequestHeader("Authorization")  authorization: String, @Valid @RequestBody registerUserCommand: RegisterUserCommand): ResponseEntity<UserDomain>{
         return ResponseEntity.ok(registerUser.registerUser(registerUserCommand));
     }
     @PostMapping(value = "/login")
     @ResponseBody
-    internal fun login(@Valid @RequestBody loginRequest: LoginUserCommand): ResponseEntity<LoginResponseJSON> {
+    internal fun login(@Valid @RequestBody loginRequest: LoginUserCommand): ResponseEntity<LoginResponseCommand> {
         return ResponseEntity.ok(loginUser.loginUser(loginRequest.username, loginRequest.password) )
     }
 }

@@ -8,6 +8,7 @@ import com.vela.developermanagementservice.usecase.FetchAllDevelopers
 import com.vela.developermanagementservice.usecase.RegisterDeveloper
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("api/developer")
@@ -17,7 +18,7 @@ class DeveloperController(var deleteDeveloper: DeleteDeveloper,
                           var registerDeveloper: RegisterDeveloper) {
 
     @PostMapping("/")
-    fun registerDeveloper(@RequestHeader("Authorization")  authorization: String,  @RequestBody registerDeveloperCommand: RegisterDeveloperCommand) :ResponseEntity<DeveloperDomain>{
+    fun registerDeveloper(@RequestHeader("Authorization")  authorization: String,  @Valid @RequestBody registerDeveloperCommand: RegisterDeveloperCommand) :ResponseEntity<DeveloperDomain>{
        return ResponseEntity.ok(registerDeveloper.registerDeveloper(registerDeveloperCommand));
     }
 

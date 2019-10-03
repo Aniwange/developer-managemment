@@ -1,4 +1,14 @@
 package com.vela.developermanagementservice.domain.dto
 
-data class LoginUserCommand(var username : String,
-                       var password: String)
+import javax.validation.Valid
+import javax.validation.constraints.NotEmpty
+
+data class LoginUserCommand(
+        @field:Valid
+        @field:NotEmpty(message = "username should not be empty")
+        var username : String,
+
+        @field:Valid
+        @field:NotEmpty(message = "username should not be empty")
+        var password: String
+        )

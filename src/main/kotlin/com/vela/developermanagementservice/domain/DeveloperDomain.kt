@@ -8,4 +8,5 @@ data class DeveloperDomain ( var id: Long,
                              var  lastName: String,
                              var  email: String,
                              var  phoneNumber: String,
-                             var  category: DeveloperCategory)
+                             var  category: DeveloperCategory
+                           )

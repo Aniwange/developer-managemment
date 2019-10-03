@@ -4,12 +4,14 @@ package com.vela.developermanagementservice.infrastructure.gatewayImpl
 import com.vela.developermanagementservice.domain.UserDomain
 import com.vela.developermanagementservice.domain.domaingateway.UserDomainGateway
 import com.vela.developermanagementservice.domain.dto.RegisterUserCommand
+import com.vela.developermanagementservice.infrastructure.exception.BadArgumentException
 import com.vela.developermanagementservice.infrastructure.persistence.entities.UserDbEntity
 import com.vela.developermanagementservice.infrastructure.persistence.repository.PrivilegesDbEntityRepo
 import com.vela.developermanagementservice.infrastructure.persistence.repository.UserDbEntityRepository
-import com.vela.learnkoltlin.domain.dto.LoginResponseJSON
+import com.vela.learnkoltlin.domain.dto.LoginResponseCommand
 import org.apache.commons.codec.binary.Base64
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import java.io.BufferedReader
 import java.io.IOException
@@ -22,7 +24,7 @@ import javax.inject.Named
 
 @Named
 class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEntityRepo: PrivilegesDbEntityRepo) : UserDomainGateway {
-    override fun loginUser(email: String, password: String): LoginResponseJSON {
+    override fun loginUser(email: String, password: String): LoginResponseCommand {
         val url = URL("http://localhost:9000/oauth/token")
         try {
             val conn = url.openConnection() as HttpURLConnection
@@ -42,14 +44,14 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
             if (conn.responseCode == HttpURLConnection.HTTP_OK) {
                 val reader = BufferedReader(InputStreamReader(conn.inputStream))
                 val generatedToken = reader.readLine().toString();
-                val response = LoginResponseJSON(generatedToken);
+                val response = LoginResponseCommand(generatedToken);
                 reader.close();
                 return response;
             }
             if (conn.responseCode != HttpURLConnection.HTTP_OK) {
                 var reader = BufferedReader(InputStreamReader(conn.errorStream))
                 val generatedToken = reader.readLine().toString();
-                val response = LoginResponseJSON(generatedToken);
+                val response = LoginResponseCommand(generatedToken);
                 reader.close();
                 return response;
             }
@@ -63,7 +65,7 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 
         }
 
-        return LoginResponseJSON("something went wrong")
+        return LoginResponseCommand("something went wrong")
 
 
     }
@@ -77,25 +79,45 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 
     override fun registerUser(registerUserCommand: RegisterUserCommand): UserDomain {
          var   privilegeDbEntity = privilegesDbEntityRepo.getOne(4)
+
          if(registerUserCommand.role.name =="USER"){
                   privilegeDbEntity = privilegesDbEntityRepo.getOne(5)
                 }
-        val  password = bCryptPasswordEncoder!!.encode(registerUserCommand.password)
 
-       var  userDbEntity = UserDbEntity(firstName = registerUserCommand.firstName,
+         val  password = bCryptPasswordEncoder!!.encode(registerUserCommand.password)
+
+         var userDbEntity1: UserDbEntity? = checkUserExistence(registerUserCommand)
+
+        if(userDbEntity1 != null){
+            throw BadArgumentException("User already exist")
+        }
+
+        val  userDbEntity = UserDbEntity(
+               firstName = registerUserCommand.firstName,
                 email = registerUserCommand.email,
                 middleName = registerUserCommand.middleName,
                 lastName = registerUserCommand.lastName,
                 password = password,
                 role = registerUserCommand.role,
-                privilege = privilegeDbEntity
-
-                )
-        repo.save(userDbEntity)
+                privilege = privilegeDbEntity)
+         repo.save(userDbEntity)
 
         return UserDomain(userDbEntity.id, userDbEntity.firstName, userDbEntity.middleName, userDbEntity.lastName, userDbEntity.email, userDbEntity.role.name)
     }
-       // run this bean to create privileges
+
+    private fun checkUserExistence(registerUserCommand: RegisterUserCommand): UserDbEntity? {
+        var userDbEntity1: UserDbEntity? = try {
+
+            repo.findByEmail(registerUserCommand.email)
+
+        } catch (e: EmptyResultDataAccessException) {
+
+            null
+        }
+        return userDbEntity1
+    }
+    /** 1.  run this bean to create privileges */
+
 //    @Bean
 //    private fun createMyPrivileges() {
 //        val privilegeDbEntityList = privilegesDbEntityRepo.findAll()
@@ -116,7 +138,10 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 //
 //        }
     //}
-//run this bean to create admin use
+
+/** after doing 1 above :  run this bean to create admin seed user */
+
+
 //    @Bean
 //    private fun createSeedUser(): String? {
 //        //val accountDbEntity=  repo.findByEmail("terteseamos@gmail.com")

@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface DeveloperDbEntityRepository : JpaRepository<DeveloperDbEntity, Long> {
+    fun findByEmail(email: String): DeveloperDbEntity?
 
 }
