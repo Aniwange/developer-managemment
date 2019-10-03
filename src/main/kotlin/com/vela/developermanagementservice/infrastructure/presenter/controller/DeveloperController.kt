@@ -2,20 +2,21 @@ package com.vela.developermanagementservice.infrastructure.presenter.controller
 
 import com.vela.developermanagementservice.domain.DeveloperDomain
 import com.vela.developermanagementservice.domain.dto.RegisterDeveloperCommand
-import com.vela.developermanagementservice.usecase.DeleteDeveloper
-import com.vela.developermanagementservice.usecase.EditDeveloper
-import com.vela.developermanagementservice.usecase.FetchAllDevelopers
-import com.vela.developermanagementservice.usecase.RegisterDeveloper
+import com.vela.developermanagementservice.usecase.*
+import lombok.NoArgsConstructor
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
+@NoArgsConstructor
 @RequestMapping("api/developer")
-class DeveloperController(var deleteDeveloper: DeleteDeveloper,
-                          var editDeveloper: EditDeveloper,
-                          var fetchAllDevelopers: FetchAllDevelopers,
-                          var registerDeveloper: RegisterDeveloper) {
+class DeveloperController(
+        var deleteDeveloper: DeleteDeveloper,
+        var editDeveloper: EditDeveloper,
+        var fetchAllDevelopers: FetchAllDevelopers,
+        var registerDeveloper: RegisterDeveloper,
+        var getDeveloper: GetDeveloper) {
 
     @PostMapping("/")
     fun registerDeveloper(@RequestHeader("Authorization")  authorization: String,  @Valid @RequestBody registerDeveloperCommand: RegisterDeveloperCommand) :ResponseEntity<DeveloperDomain>{
@@ -36,5 +37,10 @@ class DeveloperController(var deleteDeveloper: DeleteDeveloper,
     fun fetchAllDevelopers(@RequestHeader("Authorization")  authorization: String) : ResponseEntity<MutableList<List<DeveloperDomain>>> {
         return ResponseEntity.ok(fetchAllDevelopers.fetchAllDevelopers())
 
+    }
+
+    @GetMapping("/{id}")
+    fun getDeveloper(@RequestHeader("Authorization")  authorization: String, @RequestParam id: Long) :ResponseEntity<DeveloperDomain>{
+        return ResponseEntity.ok(getDeveloper.getDeveloper(id))
     }
 }

@@ -144,9 +144,8 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 
 //    @Bean
 //    private fun createSeedUser(): String? {
-//        //val accountDbEntity=  repo.findByEmail("terteseamos@gmail.com")
 //        val password = bCryptPasswordEncoder!!.encode("password")
-//        //if(accountDbEntity == null){
+//
 //        var  userDbEntity = UserDbEntity(
 //                firstName = "Tertese",
 //                email = "terteseamos@gmail.com",
@@ -158,7 +157,7 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 //        )
 //            repo.save(userDbEntity)
 //            return "created"
-
-      //  }
+//
+//        }
 
 }

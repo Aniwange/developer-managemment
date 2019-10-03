@@ -90,22 +90,35 @@ class DeveloperDomainGatewayImpl(private val developerDbEntityRepository: Develo
 
     override fun deleteDeveloper(id: Long): String {
         var developerDbEntityOptional = developerDbEntityRepository.findById(id)
+
         if (!developerDbEntityOptional.isPresent) {
+
             throw IllegalArgumentException("Developer not found")
          }
         developerDbEntityRepository.delete(developerDbEntityOptional.get())
+
         return "developer with " + developerDbEntityOptional.get().id + " id has been deleted";
     }
 
 
     override fun findDeveloper(id: Long): DeveloperDomain {
-        var developerDbEntityOptional = developerDbEntityRepository.findById(id)
+        val developerDbEntityOptional = developerDbEntityRepository.findById(id)
+
         if (!developerDbEntityOptional.isPresent) {
-            throw IllegalArgumentException("Developer not found")
+
+            throw BadArgumentException("Developer not found")
+
         }
-        var developerDbEntity = developerDbEntityOptional.get()
-        return DeveloperDomain(developerDbEntity.id, developerDbEntity.firstName, developerDbEntity.middleName, developerDbEntity.lastName,
-                developerDbEntity.email, developerDbEntity.phoneNumber, developerDbEntity.category)
+        val developerDbEntity = developerDbEntityOptional.get()
+
+        return DeveloperDomain(
+                developerDbEntity.id,
+                developerDbEntity.firstName,
+                developerDbEntity.middleName,
+                developerDbEntity.lastName,
+                developerDbEntity.email,
+                developerDbEntity.phoneNumber,
+                developerDbEntity.category)
     }
 
 
