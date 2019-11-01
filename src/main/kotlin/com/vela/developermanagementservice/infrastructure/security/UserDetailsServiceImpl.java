@@ -38,6 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         if(!account.isPresent()){
            throw new UsernameNotFoundException("User not Found");
+           //cccc
        }
         privileges.add(account.get().getPrivilege$developers_management_service().getName());
         return new User(account.get().getEmail(), account.get().getPassword(), getGrantedAuthorities(privileges));
