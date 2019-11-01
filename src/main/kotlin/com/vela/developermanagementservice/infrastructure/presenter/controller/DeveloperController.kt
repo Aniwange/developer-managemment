@@ -23,7 +23,7 @@ class DeveloperController(
        return ResponseEntity.ok(registerDeveloper.registerDeveloper(registerDeveloperCommand));
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     fun editDeveloper(@RequestHeader("Authorization")  authorization: String, @RequestBody developerDomain: DeveloperDomain) : ResponseEntity<DeveloperDomain>{
         return ResponseEntity.ok(editDeveloper.editDeveloper(developerDomain))
 
