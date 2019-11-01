@@ -1,31 +1,49 @@
 package com.vela.developermanagementservice
 
-import com.vela.developermanagementservice.domain.DeveloperDomain
-import com.vela.developermanagementservice.usecase.GetDeveloper
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 
-
-@RunWith(SpringJUnit4ClassRunner::class)
-@SpringBootTest(
-        classes = arrayOf(DevelopersManagementServiceApplication::class),
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@RunWith(MockitoJUnitRunner::class)
 class UseCaseUnitTesting {
 
-    @Autowired
-    private val getDeveloper:GetDeveloper ? = null
+//    @MockBean
+//    private lateinit var getDeveloper:GetDeveloper
+//
+//      @Test
+//     fun shouldTestGetDeveloper() {
+//          //depend on the value of the object in the table
+//          println("testing")
+//          var response: DeveloperDomain? = getDeveloper.getDeveloper(8)
+//          Assert.assertEquals(response?.firstName, "Justine")
+//          Assert.assertEquals(response?.email, "js@gmail.com")
+//    }
 
-      @Test
-     fun shouldTestGetDeveloper() {
-          //depend on the value of the object in the table
-          println("testing")
-          var response: DeveloperDomain? = getDeveloper?.getDeveloper(8)
-          Assert.assertEquals(response?.firstName, "Justine")
-          Assert.assertEquals(response?.email, "js@gmail.com")
-    }
+//    var mockMvc: MockMvc? = null
+//
+//    @Mock
+//    lateinit var loginService: LoginService
+//
+//    @BeforeEach
+//    fun setUp() {
+//        MockitoAnnotations.initMocks(this)
+//        val controller = LoginController(loginService)
+//        mockMvc = MockMvcBuilders.standaloneSetup(controller).build()
+//
+//    }
+//
+//    @Test
+//    fun processLogin() {
+//        val token = "testtoken"
+//        val loginData = LoginRequest("test@gmail.com","testtest", "123451234")
+//        Mockito.`when`(loginService.processLogin(loginData)).thenReturn(LoginResponse(AppUserCommand("",""), token))
+//        val requestString = AppUtil.toJsonString(loginData);
+//        val result: MvcResult = mockMvc!!.perform(MockMvcRequestBuilders.post("/v1/api/app/auth/login")
+//                .contentType(MediaType.APPLICATION_JSON_VALUE)
+//                .content(requestString).header("client-key", "testtest"))
+//                .andExpect(MockMvcResultMatchers.status().isOk)
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.data.token", Matchers.`is`(token)))
+//                .andReturn()
+//        val content = result.response.contentAsString;
+//        Mockito.verify(loginService, Mockito.times(1)).processLogin(loginData)
+//    }
+
 
 }

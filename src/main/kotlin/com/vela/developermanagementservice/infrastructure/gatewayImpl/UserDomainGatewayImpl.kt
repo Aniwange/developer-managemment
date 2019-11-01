@@ -67,7 +67,6 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 
         return LoginResponseCommand("something went wrong")
 
-
     }
     private fun getCredentials(): String {
         val plainClientCredentials = "user" + ":" + "userSignKey"
@@ -86,11 +85,12 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 
          val  password = bCryptPasswordEncoder!!.encode(registerUserCommand.password)
 
-         var userDbEntity1: UserDbEntity? = checkUserExistence(registerUserCommand)
+         val userDbEntity1: UserDbEntity? = checkUserExistence(registerUserCommand)
 
         if(userDbEntity1 != null){
             throw BadArgumentException("User already exist")
         }
+
 
         val  userDbEntity = UserDbEntity(
                firstName = registerUserCommand.firstName,
@@ -104,6 +104,7 @@ class UserDomainGatewayImpl(val repo: UserDbEntityRepository, val privilegesDbEn
 
         return UserDomain(userDbEntity.id, userDbEntity.firstName, userDbEntity.middleName, userDbEntity.lastName, userDbEntity.email, userDbEntity.role.name)
     }
+
 
     private fun checkUserExistence(registerUserCommand: RegisterUserCommand): UserDbEntity? {
         var userDbEntity1: UserDbEntity? = try {

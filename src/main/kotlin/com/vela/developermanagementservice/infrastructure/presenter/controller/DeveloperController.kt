@@ -43,4 +43,5 @@ class DeveloperController(
     fun getDeveloper(@RequestHeader("Authorization")  authorization: String, @RequestParam id: Long) :ResponseEntity<DeveloperDomain>{
         return ResponseEntity.ok(getDeveloper.getDeveloper(id))
     }
+
 }
